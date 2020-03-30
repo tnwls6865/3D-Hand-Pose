@@ -6,7 +6,9 @@ from scipy.ndimage.morphology import binary_dilation
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from .morphology import Dilation2d 
+import torchvision.ops as ops
+
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def single_obj_scoremap(scoremap, filter_size=21):
@@ -50,7 +52,6 @@ def single_obj_scoremap(scoremap, filter_size=21):
 def find_max_location(scoremap):
     
     s = scoremap.size() # bx256x256
-    
     
     output = torch.zeros_like(scoremap, dtype=torch.int32) # bx256x256
     coords = scoremap.view(s[0], -1) # coords: 1x65536
@@ -145,9 +146,9 @@ def crop_image_from_xy(image, crop_location, crop_size, scale=1.0):
     box_ind = torch.arange(0, size[0], dtype=torch.int32).cuda()
 
     ####### TODO: crop and resize  #######
-    #image_crops = CropAndResizeFunction(crop_size, crop_size, 0)(image, boxes, box_ind)
+    image_crops = ops.roi_align(image, boxes, (crop_size, crop_size))
     
-    return image
+    return image_crops
 
     
 
