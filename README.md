@@ -14,5 +14,5 @@
  * [Dilation2d](https://github.com/ajdillhoff/colorhandpose3d-pytorch/tree/095eb9e76bedbabc7ec23ed2e3a77b9abd6a5760)
  
 ### Train
-  * Download[HandSegnet and PoseNet pretrained model](https://drive.google.com/drive/folders/1mw0wLaxfN-L6hd1wopPl94ubFfahPNh1)
+  * Download[HandSegnet and PoseNet pretrained model](https://drive.google.com/drive/folders/1mw0wLaxfN-L6hd1wopPl94ubFfahPNh1)   
     python train.py 
