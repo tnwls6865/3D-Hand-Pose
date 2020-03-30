@@ -17,7 +17,7 @@
  * [Dilation2d](https://github.com/ajdillhoff/colorhandpose3d-pytorch/tree/095eb9e76bedbabc7ec23ed2e3a77b9abd6a5760)-> tensorflow.nn.dilation2d
  
 ### Train
-  * Download [HandSegnet, PoseNet, PosePrior pretrained model ](https://drive.google.com/drive/folders/1mw0wLaxfN-L6hd1wopPl94ubFfahPNh1) and put your ./pre_model folder
+  * Download [HandSegnet, PoseNet pretrained model ](https://drive.google.com/drive/folders/1mw0wLaxfN-L6hd1wopPl94ubFfahPNh1) and put your ./pre_model folder
   ```
   python train.py 
   ```
