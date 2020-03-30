@@ -7,7 +7,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from .morphology import Dilation2d 
-#import dilation2d, dilation2d_cuda
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def single_obj_scoremap(scoremap, filter_size=21):
@@ -34,13 +33,12 @@ def single_obj_scoremap(scoremap, filter_size=21):
         
         for j in range(num_passes): # max값 
             objectmap = torch.reshape(objectmap, [1, 1, s[2], s[3]]) # (1, 256, 256)
-            # TODO: Dilation morphology
-            #Dil = Dilation2d(objectmap.size()[1], objectmap.size()[1], kernel_size=filter_size, soft_max=False).to(device)
-            #object_dil = Dil(objectmap)
-            #objectmap_dil = dilation_wrap(objectmap, kernel_dil, padding=[padding_size, padding_size])
-            #gray = cv2.cvtColor(objectmap.cpu().numy, cv2.COLOR_BGR2GRAY)
-            #print(gray.size())
-            objectmap_dil = torch.reshape(objectmap, [s[2],s[3]])
+            objectmap_num = objectmap.cpu().detach().numpy()
+
+            ####### TODO: dilation morphology #######
+            objectmap_dil = binary_dilation(objectmap_num).astype(np.float32)
+            objectmap_dil = torch.tensor(objectmap_dil).to(device)
+            objectmap_dil = torch.reshape(objectmap_dil, [s[2],s[3]])
             objectmap = torch.round(detmap_fg[i]*objectmap_dil)
         
         objectmap = torch.reshape(objectmap, [1, s[2],s[3]])
@@ -146,8 +144,7 @@ def crop_image_from_xy(image, crop_location, crop_size, scale=1.0):
     boxes = torch.stack([y1, x1, y2, x2], -1).to(torch.float32).cuda()
     box_ind = torch.arange(0, size[0], dtype=torch.int32).cuda()
 
-    
-    # TODO: crop and resize
+    ####### TODO: crop and resize  #######
     #image_crops = CropAndResizeFunction(crop_size, crop_size, 0)(image, boxes, box_ind)
     
     return image

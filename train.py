@@ -94,7 +94,7 @@ def main(args):
             
 
 if __name__ == "__main__":
-    
+    '''
     parser = argparse.ArgumentParser(description='Learning to estimate 3D hand pose from single rgb images')
     parser.add_argument('--image_path', default='../RHD_v1-1/RHD_published_v2/training/color/', type=str,
                         help='image path')
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     parser.add_argument('--epochs', default=100, type=int, help='number of total epochs to run')
     parser.add_argument('--resume', default=False, type=bool, help='retrain')
     parser.add_argument('--pretrained', default=True, type=bool, help='HandSegNet and PoseNet pretrained')
-    parser.add_argument('--crop_size', default=256, type=int, help='image crop size')
+    parser.add_argument('--crop_size', default=256, type=int, help='image crop size')'''
     
 
     args = parser.parse_args()
