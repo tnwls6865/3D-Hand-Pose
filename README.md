@@ -15,9 +15,10 @@
  
  
 ### To Do
-
+ * RoIAlign (crop and resize)
+ * dilation morphology 
 ### Train
-  * Download [HandSegnet and PoseNet pretrained model](https://drive.google.com/drive/folders/1mw0wLaxfN-L6hd1wopPl94ubFfahPNh1) and put your ./pre_model folder
+  * Download [HandSegnet, PoseNet, PosePrior pretrained model ](https://drive.google.com/drive/folders/1mw0wLaxfN-L6hd1wopPl94ubFfahPNh1) and put your ./pre_model folder
   ```
   python train.py 
   ```
