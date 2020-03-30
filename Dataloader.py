@@ -1,5 +1,5 @@
-
 import cv2
+import glob
 import numpy as np
 import os
 from scipy.stats import truncnorm
@@ -11,10 +11,7 @@ from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from utils.canonical_trafo import canonical_trafo, flip_right_hand
 
-
-
-
-class CustomDataset(Dataset):
+class Train_Dataset(Dataset):
     def __init__(self, image_path, mask_path, anno_path, transform=None, mask_transform=None, sigma=25.0,
                  use_wrist_coord=True, hand_crop=False, coord_uv_noise=False, crop_center_noise=False,
                  crop_scale_noise=False, crop_offset_noise=False, scoremap_dropout=False, scale_to_size=False):
@@ -232,6 +229,29 @@ class CustomDataset(Dataset):
 
         return scoremap
 
+
+class Test_Dataset(Dataset):
+    def __init__(self, image_path, transform=None):
+        
+        self.image_path = image_path
+        self.transform = transform
+        self.image_list = glob.glob(image_path+'*.*')
+
+        self.num_samples = len(self.image_list)
+
+    def __getitem__(self, index):
+
+        image = Image.open(os.path.join(self.image_path, '%.5d.png' % index)).convert('RGB')
+        #image = cv2.imread(os.path.join(self.image_path, '%.5d.png' % index), 0)
+        if self.transform is not None:
+            image = self.transform(image)
+
+        return image
+
+    def __len__(self):
+        return self.num_samples
+
+
 def collate_fn(data):
     
     data = [b for b in data if b is not None]
@@ -247,10 +267,20 @@ def collate_fn(data):
     return images, hand_sides, keyponit_xyz21, rot_mat
     
 def get_loader(image_path, mask_path, anno_path, transform, mask_transform, batch_size, num_workers, shuffle=True):
-    dataset = CustomDataset(image_path, mask_path, anno_path, transform, mask_transform)
+    dataset = Train_Dataset(image_path, mask_path, anno_path, transform, mask_transform)
     data_loader = DataLoader(dataset,
                              batch_size=batch_size,
                              shuffle=shuffle,
                              num_workers=num_workers,
                              collate_fn = collate_fn)
     return data_loader
+
+def test_get_loader(image_path, transform, batch_size, num_workers, shuffle=False):
+    dataset = Test_Dataset(image_path, transform)
+    data_loader = DataLoader(dataset,
+                             batch_size=batch_size,
+                             shuffle=shuffle,
+                             num_workers=num_workers,
+                             collate_fn = collate_fn)
+    return data_loader
+    

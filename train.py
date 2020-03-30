@@ -21,7 +21,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def main(args):
 
-    # path_setting 
+    if not os.path.exists(args.model_path):
+        os.makedirs(csv_path)
     
     # data load
     transform = transforms.Compose([
@@ -38,7 +39,9 @@ def main(args):
                               transform,
                               mask_transform,
                               batch_size=args.batch_size,
-                              num_workers=args.num_works)
+                              num_workers=args.num_works,
+                              shuffle=True,
+                              mode=args.mode)
     # model load
     handseg = HandSegNet()
     posenet = PoseNet()
@@ -79,7 +82,7 @@ def main(args):
             keypoint_scoremap = posenet(image_crop)
 
             # estimate 3d pose
-            keypoint_coord3d, rot_matrix = hand3d(keypoint_scoremap, hand_sides) # (b, 21, 3)
+            keypoint_coord3d, rot_matrix, _ = hand3d(keypoint_scoremap, hand_sides) # (b, 21, 3)
             
             total_loss = loss(keypoint_coord3d, keypoint_gt) + loss(rot_matrix, rot_mat_gt)
             
@@ -108,6 +111,7 @@ if __name__ == "__main__":
     parser.add_argument('--resume', default=False, type=bool, help='retrain')
     parser.add_argument('--pretrained', default=True, type=bool, help='HandSegNet and PoseNet pretrained')
     parser.add_argument('--crop_size', default=256, type=int, help='image crop size')
+    
 
     args = parser.parse_args()
 

@@ -4,8 +4,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from models.PosePrior import PosePrior
-from models.Viewpoint import Viewpoint
+from .PosePrior import PosePrior
+from .Viewpoint import Viewpoint
 
 from utils.transforms import get_rotation_matrix, flip_right_hand
 
@@ -40,6 +40,6 @@ class HandPose(nn.Module):
         keypoint_coord3d = torch.matmul(coords_xyz_can_flip, rot_matrix)
 
 
-        return keypoint_coord3d, rot_matrix
+        return keypoint_coord3d, rot_matrix, keypoint_scoremap
 
     
