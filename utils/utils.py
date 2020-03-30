@@ -34,7 +34,7 @@ def single_obj_scoremap(scoremap, filter_size=21):
         
         for j in range(num_passes): # max값 
             objectmap = torch.reshape(objectmap, [1, 1, s[2], s[3]]) # (1, 256, 256)
-            # To do: Dilation morphology
+            # TODO: Dilation morphology
             #Dil = Dilation2d(objectmap.size()[1], objectmap.size()[1], kernel_size=filter_size, soft_max=False).to(device)
             #object_dil = Dil(objectmap)
             #objectmap_dil = dilation_wrap(objectmap, kernel_dil, padding=[padding_size, padding_size])
@@ -147,7 +147,7 @@ def crop_image_from_xy(image, crop_location, crop_size, scale=1.0):
     box_ind = torch.arange(0, size[0], dtype=torch.int32).cuda()
 
     
-    # To do: crop and resize
+    # TODO: crop and resize
     #image_crops = CropAndResizeFunction(crop_size, crop_size, 0)(image, boxes, box_ind)
     
     return image
