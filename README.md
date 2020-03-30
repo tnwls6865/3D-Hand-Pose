@@ -6,5 +6,5 @@
 - dataset : (https://lmb.informatik.uni-freiburg.de/resources/datasets/RenderedHandposeDataset.en.html)  
 
 
-Getting Started<hr/>
+## Getting Started
 
