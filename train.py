@@ -22,7 +22,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def main(args):
 
     if not os.path.exists(args.model_path):
-        os.makedirs(csv_path)
+        os.makedirs(args.model_path)
     
     # data load
     transform = transforms.Compose([
@@ -40,8 +40,7 @@ def main(args):
                               mask_transform,
                               batch_size=args.batch_size,
                               num_workers=args.num_works,
-                              shuffle=True,
-                              mode=args.mode)
+                              shuffle=True)
     # model load
     handseg = HandSegNet()
     posenet = PoseNet()
