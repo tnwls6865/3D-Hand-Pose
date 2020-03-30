@@ -17,7 +17,7 @@
 ### To Do
 
 ### Train
-  * Download[HandSegnet and PoseNet pretrained model](https://drive.google.com/drive/folders/1mw0wLaxfN-L6hd1wopPl94ubFfahPNh1)   
+  * Download [HandSegnet and PoseNet pretrained model](https://drive.google.com/drive/folders/1mw0wLaxfN-L6hd1wopPl94ubFfahPNh1)   
   ```
   python train.py 
   ```
